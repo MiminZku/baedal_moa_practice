@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:flutter/cupertino.dart';
-import 'Home.dart';
+import 'App.dart';
 
 class KakaoLoginPage extends StatefulWidget {
   @override
@@ -86,7 +86,7 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Home(),
+            builder: (context) => App(),
           ));
       _get_user_info();
       //_accessTokenExist(); // 이거 왜 실행이 안되냐...ㅠㅠ
@@ -104,7 +104,7 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(),
+              builder: (context) => App(),
             ));
         _get_user_info();
       } catch (error) {
