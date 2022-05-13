@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -250,9 +252,17 @@ class _AppState extends State<App> {
       itemBuilder: (context, index) {
         Res res = _res[index];
         return ListTile(
+          onTap: () {
+            Services_Res.postRest(res.resName.toString());
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Restaurant_info(res: res),
+                ));
+          },
           title: Row(children: [
-            Image.asset(
-              "assets/images/lotteria.jpg",
+            Image.memory(
+              base64Decode(utf8.decode(res.resImageDir.data)),
               width: 110,
               height: 110,
             ),
@@ -272,7 +282,7 @@ class _AppState extends State<App> {
                     style: TextStyle(fontSize: 14, color: Colors.grey),
                   ),
                   Text(
-                    "배달 요금 : " + "" + "원",
+                    "배달 요금 : " + "~" + "원",
                     style: TextStyle(fontSize: 14, color: Colors.grey),
                   )
                 ],
@@ -316,14 +326,6 @@ class _AppState extends State<App> {
               ),
             )
           ]),
-          onTap: () {
-            Services_Res.postRest(res.resName.toString());
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Restaurant_info(res: res),
-                ));
-          },
         );
       },
       separatorBuilder: (BuildContext context, int index) {

@@ -24,7 +24,7 @@ class Services_Room {
 
   static Future<void> postRoom(String roomId) async {
     try {
-      String __url = 'http://203.249.22.50:8080/noa';
+      String __url = 'http://203.249.22.50:8080/';
       final _url = Uri.parse(__url);
       print("방 이름 : " + roomId);
 

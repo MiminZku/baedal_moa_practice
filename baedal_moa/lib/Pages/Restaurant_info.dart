@@ -1,9 +1,14 @@
+import 'dart:convert';
+
+import 'package:baedal_moa/Pages/Menu_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Model/Res.dart';
+import '../Model/Menu.dart';
 
 class Restaurant_info extends StatelessWidget {
   late final Res res;
+  final Menu menu = new Menu(menuName: "메뉴 이름", menuPrice: 10000);
 
   Restaurant_info({required this.res});
 
@@ -45,8 +50,8 @@ class Restaurant_info extends StatelessWidget {
               return Column(
                 children: [
                   Container(
-                    child: Image.asset(
-                      "assets/images/lotteria.jpg",
+                    child: Image.memory(
+                      base64Decode(utf8.decode(res.resImageDir.data)),
                       width: deviceWidth,
                     ),
                   ),
@@ -98,7 +103,9 @@ class Restaurant_info extends StatelessWidget {
                         ),
                         Container(
                             child: IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  print("찜하기");
+                                },
                                 icon: Icon(
                                   Icons.favorite_outline,
                                   size: 40,
@@ -111,15 +118,25 @@ class Restaurant_info extends StatelessWidget {
               );
             } else {
               return ListTile(
-                  title: Row(children: [
-                Image.asset("assets/images/lotteria2.png", width: 100),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [Text("메뉴 이름"), Text("메뉴 가격")],
+                title: Row(children: [
+                  Image.asset("assets/images/lotteria2.png", width: 100),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [Text("메뉴 이름"), Text("메뉴 가격")],
+                    ),
                   ),
-                ),
-              ]));
+                ]),
+                onTap: () {
+                  print("메뉴 선택");
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Menu_info(
+                                menu: menu,
+                              )));
+                },
+              );
             }
           },
         ));
