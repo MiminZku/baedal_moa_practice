@@ -12,7 +12,7 @@ import 'package:geocoding/geocoding.dart';
 import '../Model/Menu.dart';
 import '../Model/Res.dart';
 import '../Model/Room.dart';
-import '../Model/User.dart';
+import '../Model/AppUser.dart';
 
 class CreateRoomPage extends StatefulWidget {
   Res res;
@@ -29,7 +29,7 @@ class CreateRoomPage extends StatefulWidget {
 }
 
 class _CreateRoomPageState extends State<CreateRoomPage> {
-  late List<User> userList = [];
+  late List<AppUser> userList = [];
   late Room new_room;
   late String locStr;
 
@@ -159,7 +159,7 @@ class _CreateRoomPageState extends State<CreateRoomPage> {
           menuId: m.menuId, userId: widget.userId, menuPrice: m.menuPrice));
     }
     String userName = "nobody";
-    for (User u in userList) {
+    for (AppUser u in userList) {
       print("유저 아이디 : " + u.userId.toString());
       if (u.userId == widget.userId) userName = u.userNickname;
     }

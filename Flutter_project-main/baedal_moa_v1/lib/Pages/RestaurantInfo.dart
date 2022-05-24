@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../Model/Res.dart';
 import '../Model/Menu.dart';
-import '../Model/User.dart';
+import '../Model/AppUser.dart';
 import '../Services/Services_Menu.dart';
 import 'CartPage.dart';
 

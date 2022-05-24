@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:baedal_moa/Model/AppUser.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:kakao_flutter_sdk/all.dart';
+// import 'package:kakao_flutter_sdk/all.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'GoogleMapPage.dart';
 import 'App.dart';
@@ -19,6 +21,9 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
   void initState() {
     super.initState();
     _initKakaoTalkInstalled();
+
+    /// 자동 로그인 체크
+    // checkLoggedInKakaoState();
   }
 
   //카카오톡 설치 유무 확인
@@ -29,6 +34,23 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
     setState(() {
       _isKakaoTalkInstalled = installed;
     });
+  }
+
+  void checkLoggedInKakaoState() async {
+    /// 저장해둔 카카오로그인 아이디가 있는지 체크
+
+    /// 저장해둔 아이디가 있다면
+    /// 해당 DB정보 가져오기
+
+    /// 현재 유저정보에 값 셋팅하기
+    setState(() {});
+
+    /// 홈 화면으로 접속하며 자동로그인 마무리
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => App(userId: userId, curLoc: ''), // 홈화면으로 정상 로그인
+        ));
   }
 
   //로그인 하기 누르면 auth 코드 받아옴
@@ -45,8 +67,7 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
     try {
       print('앱을 통한 로그인');
       String authCode = await AuthCodeClient.instance.requestWithTalk();
-      print('코드 : ');
-      print(authCode);
+      print('코드 : ' + authCode);
       await _issueAccessToken(authCode);
     } catch (error) {
       print(error.toString());
@@ -58,18 +79,17 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
     try {
       print('웹을 통한 로그인');
       String authCode = await AuthCodeClient.instance.request();
-      print('코드 : ');
-      print(authCode);
+      print('코드 : ' + authCode);
       await _issueAccessToken(authCode);
     } catch (error) {
       print(error.toString());
     }
   }
 
-  //autocode로 토큰 받아와서 서버로 전송
+  //authcode로 토큰 받아와서 서버로 전송
   Future<void> _issueAccessToken(String authCode) async {
     try {
-      var token = await AuthApi.instance.issueAccessToken(authCode);
+      var token = await AuthApi.instance.issueAccessToken(authCode: authCode);
       var tokenManager = DefaultTokenManager();
       tokenManager.setToken(token);
       print('----------------------->');
@@ -87,14 +107,13 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
           .catchError((e) => print(e.toString()));
       print('token : ' + token.toString());
       _get_user_info();
-      //_accessTokenExist(); // 이거 왜 실행이 안되냐...ㅠㅠ
     } catch (error) {
       print('에러' + error.toString());
     }
   }
 
   Future<void> _accessTokenExist() async {
-    // 이 아래로 실행 안됨..ㅜㅜ
+    print("token exist?");
     if (await AuthApi.instance.hasToken()) {
       try {
         User kakao_user = await UserApi.instance.me();
@@ -102,9 +121,12 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GoogleMapPage(userId: userId),
+              builder: (context) => App(
+                userId: 0,
+                curLoc: '',
+              ),
             ));
-        _get_user_info();
+        // _get_user_info();
       } catch (error) {
         print('엑세스 토큰 존재 안함 : ' + error.toString());
       }
@@ -160,6 +182,6 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
   }
 }
 
-// // //https://dev-vlog200ok.tistory.com/25
-// // //https://domdom.tistory.com/entry/flutter-%ED%94%8C%EB%9F%AC%ED%84%B0-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
-// // //openssl => https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=dntjd207&logNo=220564518845
+// https://dev-vlog200ok.tistory.com/25
+// https://domdom.tistory.com/entry/flutter-%ED%94%8C%EB%9F%AC%ED%84%B0-%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
+// openssl => https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=dntjd207&logNo=220564518845

@@ -8,7 +8,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../Model/Room.dart';
-import '../Model/User.dart';
+import '../Model/AppUser.dart';
 import '../Services/Services_Room.dart';
 import 'RoomInfo.dart';
 import 'dart:async';
@@ -260,7 +260,7 @@ class _Room_ListState extends State<Room_List> {
                                 color:
                                     CupertinoColors.secondarySystemBackground,
                                 child: Text(
-                                    "현재 인원 : " +
+                                    "인원 : " +
                                         room.roomUser.length.toString() +
                                         " / " +
                                         room.roomMaxPeople.toString(),

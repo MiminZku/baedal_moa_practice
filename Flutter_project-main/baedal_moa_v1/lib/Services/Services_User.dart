@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import '../Model/User.dart';
+import '../Model/AppUser.dart';
 
 class Services_User {
   static const String url = 'http://203.249.22.50:8080/userprofile';
 
-  static Future<List<User>> getUsers(String userId) async {
+  static Future<List<AppUser>> getUsers(String userId) async {
     try {
       final response =
           await http.post(Uri.parse(url), headers: <String, String>{
@@ -16,7 +16,7 @@ class Services_User {
       });
       print(response.statusCode.toString());
       if (200 == response.statusCode) {
-        final List<User> user1 = userFromJson(response.body);
+        final List<AppUser> user1 = userFromJson(response.body);
         // user1.insert(
         //     0,
         //     User(
@@ -29,10 +29,10 @@ class Services_User {
         return user1;
       } else {
         print('User not found');
-        return <User>[]; // 빈 사용자 목록을 반환
+        return <AppUser>[]; // 빈 사용자 목록을 반환
       }
     } catch (e) {
-      return <User>[];
+      return <AppUser>[];
     }
   }
 }
