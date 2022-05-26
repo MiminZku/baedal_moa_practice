@@ -119,21 +119,25 @@ class RoomMemberMenu {
     required this.menuId,
     required this.userId,
     required this.menuPrice,
+    required this.menuCount,
   });
 
   int menuId;
   int userId;
   int menuPrice;
+  int menuCount;
 
   factory RoomMemberMenu.fromJson(Map<String, dynamic> json) => RoomMemberMenu(
         menuId: json["menu_id"],
         userId: json["user_id"],
         menuPrice: json["menu_price"],
+        menuCount: json["menu_count"],
       );
 
   Map<String, dynamic> toJson() => {
         "menu_id": menuId,
         "user_id": userId,
         "menu_price": menuPrice,
+        "menu_count": menuCount,
       };
 }
